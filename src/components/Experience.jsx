@@ -5,14 +5,13 @@ function Experience() {
       type: '6-Month Internship',
       company: 'Peakprosys Solutions Pvt. Ltd.',
       location: 'Pune, Maharashtra',
-      period: 'March 2025 – August 2025',
+      period: 'Mar 2025 – Aug 2025',
       points: [
-        'Designed and developed dynamic administration dashboard modules and full-stack CRUD applications using PHP and MySQL.',
-        'Implemented secure session-based authentication, role-based access control (RBAC), and relational schema models.',
-        'Collaborated in an Agile development environment utilizing Git and GitHub for version control, issue tracking, and code reviews.',
-        'Enhanced front-end responsiveness and accessibility across mobile and desktop devices using Bootstrap and CSS3.',
+        'Worked on real-time web application projects involving administrative dashboard modules and CRUD-based functionality.',
+        'Gained practical exposure to full-stack development, database integration with MySQL, and responsive web interfaces using Bootstrap.',
+        'Contributed to debugging, problem-solving, code reviews, and collaboration within a professional development team environment.',
       ],
-      techStack: ['PHP', 'MySQL', 'JavaScript', 'Bootstrap', 'Git', 'Agile', 'CRUD'],
+      techStack: ['PHP', 'MySQL', 'JavaScript', 'Bootstrap', 'HTML5/CSS3', 'Git', 'CRUD'],
     },
   ]
 
@@ -23,7 +22,7 @@ function Experience() {
           <span className="section-kicker">Career Path</span>
           <h2 className="section-title">Work Experience</h2>
           <p className="section-subtitle">
-            Professional industry experience in building real-world web applications and collaborative software development.
+            Hands-on software development experience gained in an industry development setting.
           </p>
         </div>
 
