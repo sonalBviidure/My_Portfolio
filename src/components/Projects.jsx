@@ -4,49 +4,64 @@ const GITHUB_PROFILE = 'https://github.com/sonalBviidure'
 
 const projectCategories = [
   { id: 'all', label: 'All Projects' },
-  { id: 'fullstack', label: 'Full Stack' },
-  { id: 'python', label: 'Python / Django' },
-  { id: 'react', label: 'React & AI' },
+  { id: 'web', label: 'Web Applications' },
+  { id: 'mca', label: 'MCA Projects' },
+  { id: 'python', label: 'Python & AI' },
 ]
 
 const projects = [
   {
     title: 'NGO Admin Dashboard',
     tag: 'Web Application',
-    category: 'fullstack',
+    category: 'web',
+    status: 'Completed',
     description:
-      'Dynamic administration dashboard for managing affiliated colleges, trainers, courses, and student batches with secure session-based authentication, role authorization, and responsive UI.',
-    technologies: ['PHP', 'MySQL', 'Bootstrap', 'JavaScript', 'Sessions'],
+      'Dynamic administration dashboard for managing colleges, trainers, courses, and students. Applied CRUD operations for structured record management and designed a responsive Bootstrap interface to centralize NGO administrative records for organized management.',
+    technologies: ['PHP', 'MySQL', 'Bootstrap', 'JavaScript', 'CRUD'],
     github: GITHUB_PROFILE,
     demo: GITHUB_PROFILE,
   },
   {
     title: 'Business Board Matrix Solution (BBMS)',
     tag: 'B2B Networking Platform',
-    category: 'fullstack',
+    category: 'web',
+    status: 'Completed',
     description:
-      'B2B referral networking platform featuring area-wise post filtering, meeting scheduling, and dedicated role dashboards for administrators and business members.',
-    technologies: ['PHP', 'MySQL', 'JavaScript', 'HTML5/CSS3', 'CRUD'],
+      'Web-based business management solution with area-wise post filtering and meeting management. Built separate dashboards for admin and business owners with role-specific functionality to support structured business networking, meetings, and referral-oriented activities.',
+    technologies: ['HTML5', 'CSS3', 'PHP', 'MySQL', 'JavaScript'],
     github: GITHUB_PROFILE,
     demo: GITHUB_PROFILE,
   },
   {
-    title: 'Lead Generation Management System',
-    tag: 'CRM & Lead Management',
-    category: 'python',
+    title: 'Farm Management System',
+    tag: 'MCA Project',
+    category: 'mca',
+    status: 'Ongoing',
     description:
-      'Enterprise CRM and lead tracking application featuring role-based access control (RBAC), multi-stage pipeline workflows, status tracking, and reporting analytics.',
-    technologies: ['Python', 'Django', 'MySQL', 'Bootstrap', 'RBAC'],
+      'A centralized digital platform focused on organizing farming-related activities, agricultural resources, and records. Aims to make agricultural planning and farm management more structured, accessible, and manageable through modern software.',
+    technologies: ['React.js', 'Core Java / Python', 'MySQL', 'Responsive UI'],
     github: GITHUB_PROFILE,
     demo: GITHUB_PROFILE,
   },
   {
     title: 'RAG-Based AI Resume Ranker',
     tag: 'AI / NLP Screening',
-    category: 'react',
+    category: 'python',
+    status: 'Featured',
     description:
-      'Automated candidate evaluation platform that leverages vector embeddings and semantic search to rank resumes objectively against customized job descriptions.',
-    technologies: ['React.js', 'Python', 'ChromaDB', 'Vector Search', 'REST API'],
+      'Automated candidate evaluation platform that leverages vector embeddings and semantic search to rank resumes objectively against customized job descriptions, reducing screening turnaround times.',
+    technologies: ['React.js', 'Python', 'Vector Search', 'REST API'],
+    github: GITHUB_PROFILE,
+    demo: GITHUB_PROFILE,
+  },
+  {
+    title: 'Lead Generation Management System',
+    tag: 'CRM Application',
+    category: 'python',
+    status: 'Completed',
+    description:
+      'Enterprise CRM and lead tracking application featuring role-based access control (RBAC), multi-stage pipeline workflows, status tracking, and reporting analytics.',
+    technologies: ['Python', 'Django', 'MySQL', 'Bootstrap', 'RBAC'],
     github: GITHUB_PROFILE,
     demo: GITHUB_PROFILE,
   },
@@ -66,7 +81,7 @@ function Projects() {
           <span className="section-kicker">Featured Work</span>
           <h2 className="section-title">Projects</h2>
           <p className="section-subtitle">
-            A selection of production-grade management dashboards, CRM platforms, and full-stack software solutions.
+            A portfolio of management dashboards, web applications, and ongoing software projects built with PHP, MySQL, Python, and React.
           </p>
         </div>
 
@@ -87,7 +102,12 @@ function Projects() {
           {filteredProjects.map((project) => (
             <article key={project.title} className="premium-project-card">
               <div className="project-card-header">
-                <span className="project-category-tag">{project.tag}</span>
+                <div className="project-meta-row">
+                  <span className="project-category-tag">{project.tag}</span>
+                  {project.status === 'Ongoing' && (
+                    <span className="project-ongoing-pill">Ongoing</span>
+                  )}
+                </div>
                 <h3 className="project-title">{project.title}</h3>
               </div>
 
@@ -120,12 +140,12 @@ function Projects() {
                   target="_blank"
                   rel="noreferrer"
                   className="btn btn-small btn-outline"
-                  aria-label={`View Live Demo for ${project.title}`}
+                  aria-label={`View details for ${project.title}`}
                 >
                   <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style={{ marginRight: '6px' }} aria-hidden="true">
                     <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" />
                   </svg>
-                  Live Demo
+                  Demo &bull; Repo
                 </a>
               </div>
             </article>

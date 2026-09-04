@@ -2,9 +2,9 @@ import { useState } from 'react'
 
 const EMAIL_ADDRESS = 'viduresonali@gmail.com'
 const GITHUB_URL = 'https://github.com/sonalBviidure'
-const LINKEDIN_URL = 'https://www.linkedin.com/in/sonali-vidure-sbv354?utm_source=share_via&utm_content=profile&utm_medium=member_android'
+const LINKEDIN_URL = 'https://www.linkedin.com/in/sonali-vidure-sbv354'
 const PHONE_NUMBER = '+91 8180939354'
-const LOCATION = 'Sangli / Kolhapur / Pune, Maharashtra'
+const LOCATION = 'A/P Savalaj, Dist. Sangli, Maharashtra'
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -14,15 +14,13 @@ function Contact() {
     message: '',
   })
   const [errors, setErrors] = useState({})
-  const [success, setSuccess] = useState('')
-  const [serverError, setServerError] = useState('')
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
   const [copied, setCopied] = useState(false)
 
   function handleCopyEmail() {
     navigator.clipboard.writeText(EMAIL_ADDRESS).then(() => {
       setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      setTimeout(() => setCopied(false), 2500)
     })
   }
 
@@ -35,9 +33,6 @@ function Contact() {
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: '' }))
     }
-    if (serverError) {
-      setServerError('')
-    }
   }
 
   function validate() {
@@ -49,23 +44,20 @@ function Contact() {
     }
 
     if (!formData.email.trim()) {
-      nextErrors.email = 'Please enter your email.'
+      nextErrors.email = 'Please enter your email address.'
     } else if (!emailPattern.test(formData.email)) {
       nextErrors.email = 'Please enter a valid email address.'
     }
 
     if (!formData.message.trim()) {
-      nextErrors.message = 'Please write a message.'
+      nextErrors.message = 'Please enter your message.'
     }
 
     return nextErrors
   }
 
-  async function handleSubmit(event) {
+  function handleSubmit(event) {
     event.preventDefault()
-    setSuccess('')
-    setServerError('')
-
     const nextErrors = validate()
     setErrors(nextErrors)
 
@@ -73,58 +65,16 @@ function Contact() {
       return
     }
 
-    setIsSubmitting(true)
+    // Static frontend mailto trigger
+    const subject = encodeURIComponent(formData.subject.trim() || `Portfolio Contact from ${formData.name}`)
+    const body = encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+    )
+    const mailtoUrl = `mailto:${EMAIL_ADDRESS}?subject=${subject}&body=${body}`
 
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-
-      let data = null
-      const contentType = response.headers.get('content-type')
-      if (contentType && contentType.includes('application/json')) {
-        try {
-          data = await response.json()
-        } catch {
-          data = null
-        }
-      }
-
-      if (!response.ok) {
-        const errorMsg =
-          data?.message ||
-          (response.status === 504 || response.status === 502
-            ? 'Backend server is not reachable. Please start the backend with "npm run dev:all" or "npm run server:dev".'
-            : `Server returned an error (${response.status}). Please verify that MongoDB and the backend server are running.`)
-        throw new Error(errorMsg)
-      }
-
-      if (!data || !data.success) {
-        throw new Error(data?.message || 'Failed to send message. Please try again later.')
-      }
-
-      setSuccess(`Thank you, ${formData.name}! Your message has been sent successfully. I will get back to you soon.`)
-      setFormData({ name: '', email: '', subject: '', message: '' })
-    } catch (err) {
-      console.error('[Contact Form Error]:', err)
-      const isNetworkOrJsonError =
-        err.name === 'TypeError' ||
-        err.message.includes('fetch') ||
-        err.message.includes('JSON') ||
-        err.message.includes('Unexpected end')
-
-      setServerError(
-        isNetworkOrJsonError
-          ? 'Backend server is not running on port 5000. Please start both frontend & backend together by running "npm run dev:all".'
-          : err.message
-      )
-    } finally {
-      setIsSubmitting(false)
-    }
+    // Trigger user's mail client
+    window.location.href = mailtoUrl
+    setSubmitted(true)
   }
 
   return (
@@ -134,16 +84,16 @@ function Contact() {
           <span className="section-kicker">Get In Touch</span>
           <h2 className="section-title">Contact</h2>
           <p className="section-subtitle">
-            Currently available for Software Engineer, Full Stack, and IT developer opportunities. Let&apos;s discuss how I can contribute to your team.
+            Available for Software Engineer, Full Stack, and IT developer opportunities. Let&apos;s discuss how I can contribute to your team.
           </p>
         </div>
 
         <div className="contact-layout-grid">
-          {/* Left Column: Channels */}
+          {/* Left Column: Direct Clickable Channels */}
           <div className="contact-info-column">
             <h3 className="contact-column-heading">Contact Details</h3>
             <p className="contact-column-desc">
-              Feel free to reach out via email, connect on LinkedIn, or review my repositories on GitHub.
+              Feel free to reach out via email, phone, LinkedIn, or explore my GitHub profile.
             </p>
 
             <div className="contact-channels-list">
@@ -153,7 +103,7 @@ function Contact() {
                 </div>
                 <div className="channel-content">
                   <span className="channel-type">Email</span>
-                  <a href={`mailto:${EMAIL_ADDRESS}`} className="channel-link">
+                  <a href={`mailto:${EMAIL_ADDRESS}`} className="channel-link clickable-link" title="Click to send email">
                     {EMAIL_ADDRESS}
                   </a>
                 </div>
@@ -162,6 +112,7 @@ function Contact() {
                   className="btn-copy-tag"
                   onClick={handleCopyEmail}
                   title="Copy email to clipboard"
+                  aria-label="Copy email address"
                 >
                   {copied ? '✓ Copied' : 'Copy'}
                 </button>
@@ -173,7 +124,7 @@ function Contact() {
                 </div>
                 <div className="channel-content">
                   <span className="channel-type">Phone</span>
-                  <a href="tel:+918180939354" className="channel-link">
+                  <a href={`tel:${PHONE_NUMBER.replace(/\s+/g, '')}`} className="channel-link clickable-link" title="Click to call">
                     {PHONE_NUMBER}
                   </a>
                 </div>
@@ -199,7 +150,8 @@ function Contact() {
                     href={LINKEDIN_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="channel-link"
+                    className="channel-link clickable-link"
+                    title="View LinkedIn Profile (opens in new tab)"
                   >
                     linkedin.com/in/sonali-vidure-sbv354
                   </a>
@@ -216,7 +168,8 @@ function Contact() {
                     href={GITHUB_URL}
                     target="_blank"
                     rel="noreferrer"
-                    className="channel-link"
+                    className="channel-link clickable-link"
+                    title="View GitHub Profile (opens in new tab)"
                   >
                     github.com/sonalBviidure
                   </a>
@@ -225,7 +178,7 @@ function Contact() {
             </div>
           </div>
 
-          {/* Right Column: Clean Form */}
+          {/* Right Column: Static Frontend Direct Message Form */}
           <div className="contact-form-column">
             <form className="developer-contact-form" onSubmit={handleSubmit} noValidate>
               <h3 className="contact-column-heading">Send a Direct Message</h3>
@@ -238,7 +191,7 @@ function Contact() {
                   type="text"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="e.g. Rahul Sharma"
+                  placeholder="e.g. John Doe"
                   className={`field-input ${errors.name ? 'error' : ''}`}
                 />
                 {errors.name && <span className="field-error-text">{errors.name}</span>}
@@ -266,7 +219,7 @@ function Contact() {
                   type="text"
                   value={formData.subject}
                   onChange={handleChange}
-                  placeholder="Job Opportunity / Project Inquiry"
+                  placeholder="Software Engineer Role / Project Inquiry"
                   className="field-input"
                 />
               </div>
@@ -279,7 +232,7 @@ function Contact() {
                   rows="4"
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Hi Sonali, I came across your portfolio..."
+                  placeholder="Hi Sonali, I came across your portfolio and would like to discuss..."
                   className={`field-input field-textarea ${errors.message ? 'error' : ''}`}
                 ></textarea>
                 {errors.message && <span className="field-error-text">{errors.message}</span>}
@@ -288,20 +241,18 @@ function Contact() {
               <button
                 type="submit"
                 className="btn btn-primary btn-submit-full"
-                disabled={isSubmitting}
               >
-                {isSubmitting ? 'Sending Message...' : 'Send Message'}
+                Send Message via Email
               </button>
 
-              {serverError && (
-                <div className="form-alert-error" role="alert">
-                  <p>{serverError}</p>
-                </div>
-              )}
-
-              {success && (
+              {submitted && (
                 <div className="form-alert-success" role="alert">
-                  <p>{success}</p>
+                  <p>
+                    <strong>Email draft opened!</strong> If your email application did not launch automatically, you can also email directly at{' '}
+                    <a href={`mailto:${EMAIL_ADDRESS}`} style={{ textDecoration: 'underline', fontWeight: 600 }}>
+                      {EMAIL_ADDRESS}
+                    </a>.
+                  </p>
                 </div>
               )}
             </form>

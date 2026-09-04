@@ -1,6 +1,6 @@
 const certifications = [
   {
-    title: 'Shantadevi D Patil Merit Scholarship Award',
+    title: 'Shantadevi D. Patil Merit Scholarship Award',
     issuer: 'D.Y. Patil Agriculture and Technical University',
     year: '2022 – 2023',
     type: 'Merit Award',
@@ -11,21 +11,21 @@ const certifications = [
     issuer: 'Technical Training Program',
     year: '2024',
     type: 'Certification',
-    desc: 'Certified training covering PHP fundamentals, MySQL integration, session security, and CRUD development.',
+    desc: 'Practical technical training covering PHP fundamentals, MySQL integration, session security, and CRUD development.',
   },
   {
     title: 'Microsoft Excel Certificate',
     issuer: 'Microsoft Skills Program',
     year: '2023',
     type: 'Certification',
-    desc: 'Certified proficiency in spreadsheet data analysis, advanced formulas, structured reporting, and data management.',
+    desc: 'Certified proficiency in spreadsheet data analysis, advanced functions, structured reporting, and data management.',
   },
   {
-    title: 'Academic Distinction Honors (9+ CGPA)',
-    issuer: "KIT'S IMER & D.Y.P-ATU",
+    title: 'University Academic Distinction Honors',
+    issuer: "KIT'S IMER & D.Y.P – ATU",
     year: '2022 – Present',
     type: 'Academic Merit',
-    desc: 'Maintained 9.33 CGPA in MCA and 9.20 CGPA in BCA with consistent University distinction.',
+    desc: 'Maintained 9.33 CGPA in MCA and 9.20 CGPA in BCA with consistent distinction across university semesters.',
   },
 ]
 
@@ -35,9 +35,9 @@ function Certifications() {
       <div className="container">
         <div className="section-header">
           <span className="section-kicker">Recognition</span>
-          <h2 className="section-title">Certifications &amp; Awards</h2>
+          <h2 className="section-title">Achievements &amp; Certifications</h2>
           <p className="section-subtitle">
-            Formal technical certifications, academic merit scholarships, and recognized accomplishments.
+            Formal technical certifications, academic merit scholarship honors, and recognized accomplishments.
           </p>
         </div>
 
